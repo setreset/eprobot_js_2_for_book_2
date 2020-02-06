@@ -17,13 +17,14 @@ class Simulation {
 
         this.add_borders();
 
-        let eprobot = new Eprobot(this);
-        this.world.world_set(eprobot, 10, 10);
-
-        let b = new Barrier(this);
-        this.world.world_set(b, 12, 12);
+        this.eprobot = new Eprobot(this);
+        this.world.world_set(this.eprobot, 10, 10);
 
         this.drawer.paint_fast();
+    }
+
+    simulation_step(){
+        this.eprobot.step();
     }
 
     add_borders(){

@@ -21,6 +21,8 @@ class Terrain {
     get_color(){
         if (this.slot_object){
             return this.slot_object.get_color();
+        }else{
+            return "#000000";
         }
     }
 }

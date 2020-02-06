@@ -28,4 +28,16 @@ class World {
         t.prepare_paint();
     }
 
+    world_move(o, old_pos_x, old_pos_y, new_pos_x, new_pos_y){
+        var t = this.get_terrain(new_pos_x, new_pos_y);
+        t.slot_object = o;
+        o.position_x = new_pos_x;
+        o.position_y = new_pos_y;
+        t.prepare_paint();
+
+        var t_old = this.get_terrain(old_pos_x, old_pos_y);
+        t_old.slot_object = null;
+        t_old.prepare_paint();
+    }
+
 }
