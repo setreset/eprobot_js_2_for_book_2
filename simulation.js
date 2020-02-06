@@ -25,10 +25,32 @@ class Simulation {
         this.drawer.paint_fast();
     }
 
+    get_random_program(){
+        var program = [];
+        for (var pi = 0; pi < settings.program_length; pi++) {
+            var val = tools_random(settings.program_length * 10) - settings.program_length;
+            program.push(val);
+        }
+
+        return program
+    }
+
+    get_random_data(){
+        var init_data = [];
+        for (var di = 0; di < settings.data_length; di++) {
+            var val = tools_random2(-720, 720);
+            init_data.push(val);
+        }
+
+        return init_data;
+    }
+
     seed_eprobots(){
         if (this.eprobot_counter==0){
             for (let i=0;i<10;i++){
-                let eprobot = new Eprobot(this);
+                let init_program = this.get_random_program();
+                let init_data = this.get_random_data();
+                let eprobot = new Eprobot(this, init_program, init_data);
                 let rand_x = tools_random(this.world_width_visible);
                 let rand_y = tools_random(this.world_height_visible);
 
@@ -80,7 +102,7 @@ class Simulation {
     }
 
     try_fork(o, list_eprobots_next){
-        if (o.energy>0){
+        if (o.energy>0 && this.eprobot_counter<settings.eprobots_max_individuals){
             let spreadval = tools_random(8);
             let vec = DIRECTIONS[spreadval];
             let spreadpos_x = o.position_x + vec.x;
@@ -88,7 +110,9 @@ class Simulation {
             let spreadterrain = this.world.get_terrain(spreadpos_x, spreadpos_y);
             if (spreadterrain.slot_object==null){
                 console.log("spread");
-                let eprobot = new Eprobot(this);
+                let new_program = tools_mutate(settings.mutate_possibility, settings.mutate_strength, o.program);
+                let new_data = tools_mutate(settings.mutate_possibility, settings.mutate_strength, o.init_data);
+                let eprobot = new Eprobot(this, new_program, new_data);
                 this.world.world_set(eprobot, spreadpos_x, spreadpos_y);
                 list_eprobots_next.push(eprobot);
                 this.eprobot_counter++;

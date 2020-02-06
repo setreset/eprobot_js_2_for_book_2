@@ -1,5 +1,5 @@
 class Eprobot{
-    constructor(s) {
+    constructor(s, program, init_data) {
         this.position_x = null;
         this.position_y = null;
 
@@ -8,6 +8,11 @@ class Eprobot{
         this.age = 0;
         this.max_age = settings.eprobots_max_age + tools_random(100);
         this.energy = 0;
+
+        this.program = program;
+
+        this.init_data = init_data;
+        this.working_data = init_data.slice(0);
     }
 
     get_color(){
@@ -18,8 +23,26 @@ class Eprobot{
         return this.max_age;
     }
 
+    map_output_val(val, number_of_values){
+        if (isFinite(val)){
+            var mapped_val = Math.abs(val) % (number_of_values);
+        }else{
+            var mapped_val = tools_random(number_of_values);
+        }
+        return mapped_val;
+    }
+
+    get_output_OISC(){
+        tools_compute(this.program, this.working_data, settings.program_steps_max);
+
+        let moveval_raw = this.working_data[0];
+        let moveval = this.map_output_val(moveval_raw, DIRECTIONS.length + 1);
+
+        return moveval;
+    }
+
     step(){
-        let moveval = tools_random(9);
+        let moveval = this.get_output_OISC();
         if (moveval<DIRECTIONS.length){
             let vec = DIRECTIONS[moveval];
             let movepos_x = this.position_x + vec.x;
