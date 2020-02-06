@@ -10,4 +10,17 @@ class Terrain {
 
         this.slot_object = null;
     }
+
+    prepare_paint(){
+        if (this.dirty == false){
+            this.dirty = true;
+            this.s.drawer.paintlist.push(this);
+        }
+    }
+
+    get_color(){
+        if (this.slot_object){
+            return this.slot_object.get_color();
+        }
+    }
 }

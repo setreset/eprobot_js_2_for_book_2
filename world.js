@@ -19,4 +19,13 @@ class World {
         return this.worldarr[x][y];
     }
 
+    world_set(o, x_pos, y_pos){
+        var t = this.get_terrain(x_pos, y_pos);
+        t.slot_object = o;
+        o.position_x = x_pos;
+        o.position_y = y_pos;
+
+        t.prepare_paint();
+    }
+
 }
