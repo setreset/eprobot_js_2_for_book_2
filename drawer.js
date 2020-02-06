@@ -13,14 +13,9 @@ class Drawer {
     }
 
     init_canvas(){
-        // get canvas dimensions
-        let rect = this.canvas.getBoundingClientRect();
-        let c_w = rect.width;
-        let c_h = rect.height;
-
         // korrigieren weil nur der innere bereich angezeigt wird
-        this.x_step = c_w / (this.s.world_width_visible);
-        this.y_step = c_h / (this.s.world_height_visible);
+        this.x_step = this.canvas.width / (this.s.world_width_visible);
+        this.y_step = this.canvas.height / (this.s.world_height_visible);
     }
 
     paint_fast(){
