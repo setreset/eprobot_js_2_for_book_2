@@ -17,6 +17,8 @@ class Simulation {
 
         this.add_borders();
 
+        this.plant_counter = 0;
+
         this.list_eprobots = [];
         for (let i=0;i<10;i++){
             let eprobot = new Eprobot(this);
@@ -32,7 +34,26 @@ class Simulation {
         this.drawer.paint_fast();
     }
 
+    seed_plants(){
+        if (this.plant_counter<settings.number_of_plants){
+            let pc = this.plant_counter;
+            for (let i=0;i<settings.number_of_plants-pc;i++){
+                let p = new Plant(this);
+                let rand_x = tools_random(this.world_width_visible);
+                let rand_y = tools_random(this.world_height_visible);
+
+                let t = this.world.get_terrain(rand_x, rand_y);
+                if (t.energy_object==null && t.slot_object==null){
+                    this.world.world_set_energy(p, rand_x, rand_y);
+                    this.plant_counter++;
+                }
+            }
+        }
+    }
+
     simulation_step(){
+        this.seed_plants();
+
         for (let o of this.list_eprobots) {
             o.step();
         }

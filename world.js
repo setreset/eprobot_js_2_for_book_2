@@ -28,6 +28,15 @@ class World {
         t.prepare_paint();
     }
 
+    world_set_energy(o, x_pos, y_pos){
+        var t = this.get_terrain(x_pos, y_pos);
+        t.energy_object = o;
+        o.position_x = x_pos;
+        o.position_y = y_pos;
+
+        t.prepare_paint();
+    }
+
     world_move(o, old_pos_x, old_pos_y, new_pos_x, new_pos_y){
         var t = this.get_terrain(new_pos_x, new_pos_y);
         t.slot_object = o;

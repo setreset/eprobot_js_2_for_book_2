@@ -9,6 +9,7 @@ class Terrain {
         this.dirty = false;
 
         this.slot_object = null;
+        this.energy_object = null;
     }
 
     prepare_paint(){
@@ -22,7 +23,11 @@ class Terrain {
         if (this.slot_object){
             return this.slot_object.get_color();
         }else{
-            return "#000000";
+            if (this.energy_object){
+                return this.energy_object.get_color();
+            }else{
+                return "#000000";
+            }
         }
     }
 }
