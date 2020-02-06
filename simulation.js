@@ -17,14 +17,25 @@ class Simulation {
 
         this.add_borders();
 
-        this.eprobot = new Eprobot(this);
-        this.world.world_set(this.eprobot, 10, 10);
+        this.list_eprobots = [];
+        for (let i=0;i<10;i++){
+            let eprobot = new Eprobot(this);
+            let rand_x = tools_random(this.world_width_visible);
+            let rand_y = tools_random(this.world_height_visible);
+
+            if (this.world.get_terrain(rand_x, rand_y).slot_object==null){
+                this.world.world_set(eprobot, rand_x, rand_y);
+                this.list_eprobots.push(eprobot);
+            }
+        }
 
         this.drawer.paint_fast();
     }
 
     simulation_step(){
-        this.eprobot.step();
+        for (let o of this.list_eprobots) {
+            o.step();
+        }
     }
 
     add_borders(){
