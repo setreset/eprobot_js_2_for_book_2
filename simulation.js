@@ -59,6 +59,7 @@ class Simulation {
             if (o.age<o.get_max_age()){
                 o.step();
                 list_eprobots_next.push(o);
+                this.try_fork(o, list_eprobots_next);
             }else{
                 console.log("dead");
                 this.world.world_unset(o, o.position_x, o.position_y);
@@ -67,6 +68,23 @@ class Simulation {
         }
 
         this.list_eprobots = list_eprobots_next;
+    }
+
+    try_fork(o, list_eprobots_next){
+        if (o.energy>0){
+            let spreadval = tools_random(8);
+            let vec = DIRECTIONS[spreadval];
+            let spreadpos_x = o.position_x + vec.x;
+            let spreadpos_y = o.position_y + vec.y;
+            let spreadterrain = this.world.get_terrain(spreadpos_x, spreadpos_y);
+            if (spreadterrain.slot_object==null){
+                console.log("spread");
+                let eprobot = new Eprobot(this);
+                this.world.world_set(eprobot, spreadpos_x, spreadpos_y);
+                list_eprobots_next.push(eprobot);
+                o.energy--;
+            }
+        }
     }
 
     add_borders(){

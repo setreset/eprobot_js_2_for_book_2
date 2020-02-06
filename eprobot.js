@@ -7,6 +7,7 @@ class Eprobot{
 
         this.age = 0;
         this.max_age = settings.eprobots_max_age + tools_random(100);
+        this.energy = 0;
     }
 
     get_color(){
@@ -31,6 +32,7 @@ class Eprobot{
                     console.log("mampf");
                     t_new.energy_object = null;
                     this.s.plant_counter--;
+                    this.energy++;
                 }
             }else{
                 console.log("autsch!");
