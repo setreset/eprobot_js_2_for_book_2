@@ -9,5 +9,7 @@ class Simulation {
         this.world_width = canvas_width/settings.pixel_size+2;
         this.world_height = canvas_height/settings.pixel_size+2;
         console.log("world dimensions: "+this.world_width+"x"+this.world_height);
+
+        this.world = new World(this, this.world_width, this.world_height);
     }
 }
