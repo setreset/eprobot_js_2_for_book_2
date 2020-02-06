@@ -54,9 +54,19 @@ class Simulation {
     simulation_step(){
         this.seed_plants();
 
+        let list_eprobots_next = [];
         for (let o of this.list_eprobots) {
-            o.step();
+            if (o.age<o.get_max_age()){
+                o.step();
+                list_eprobots_next.push(o);
+            }else{
+                console.log("dead");
+                this.world.world_unset(o, o.position_x, o.position_y);
+            }
+
         }
+
+        this.list_eprobots = list_eprobots_next;
     }
 
     add_borders(){

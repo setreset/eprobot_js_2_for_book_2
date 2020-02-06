@@ -4,10 +4,17 @@ class Eprobot{
         this.position_y = null;
 
         this.s = s;
+
+        this.age = 0;
+        this.max_age = settings.eprobots_max_age + tools_random(100);
     }
 
     get_color(){
         return "#f50000";
+    }
+
+    get_max_age(){
+        return this.max_age;
     }
 
     step(){
@@ -29,5 +36,6 @@ class Eprobot{
                 console.log("autsch!");
             }
         }
+        this.age++;
     }
 }
