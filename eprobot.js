@@ -20,6 +20,11 @@ class Eprobot{
             let t_new = this.s.world.get_terrain(movepos_x, movepos_y);
             if (t_new.slot_object==null){
                 this.s.world.world_move(this, this.position_x, this.position_y, movepos_x, movepos_y);
+                if (t_new.energy_object){
+                    console.log("mampf");
+                    t_new.energy_object = null;
+                    this.s.plant_counter--;
+                }
             }else{
                 console.log("autsch!");
             }
