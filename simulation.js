@@ -20,18 +20,25 @@ class Simulation {
         this.plant_counter = 0;
 
         this.list_eprobots = [];
-        for (let i=0;i<10;i++){
-            let eprobot = new Eprobot(this);
-            let rand_x = tools_random(this.world_width_visible);
-            let rand_y = tools_random(this.world_height_visible);
-
-            if (this.world.get_terrain(rand_x, rand_y).slot_object==null){
-                this.world.world_set(eprobot, rand_x, rand_y);
-                this.list_eprobots.push(eprobot);
-            }
-        }
+        this.eprobot_counter = 0;
 
         this.drawer.paint_fast();
+    }
+
+    seed_eprobots(){
+        if (this.eprobot_counter==0){
+            for (let i=0;i<10;i++){
+                let eprobot = new Eprobot(this);
+                let rand_x = tools_random(this.world_width_visible);
+                let rand_y = tools_random(this.world_height_visible);
+
+                if (this.world.get_terrain(rand_x, rand_y).slot_object==null){
+                    this.world.world_set(eprobot, rand_x, rand_y);
+                    this.list_eprobots.push(eprobot);
+                    this.eprobot_counter++;
+                }
+            }
+        }
     }
 
     seed_plants(){
@@ -53,6 +60,7 @@ class Simulation {
 
     simulation_step(){
         this.seed_plants();
+        this.seed_eprobots();
 
         let list_eprobots_next = [];
         for (let o of this.list_eprobots) {
@@ -63,6 +71,7 @@ class Simulation {
             }else{
                 console.log("dead");
                 this.world.world_unset(o, o.position_x, o.position_y);
+                this.eprobot_counter--;
             }
 
         }
@@ -82,6 +91,7 @@ class Simulation {
                 let eprobot = new Eprobot(this);
                 this.world.world_set(eprobot, spreadpos_x, spreadpos_y);
                 list_eprobots_next.push(eprobot);
+                this.eprobot_counter++;
                 o.energy--;
             }
         }
