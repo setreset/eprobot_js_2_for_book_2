@@ -15,9 +15,32 @@ class Simulation {
         this.world = new World(this, this.world_width, this.world_height);
         this.drawer = new Drawer(this, canvas);
 
+        this.add_borders();
+
         let eprobot = new Eprobot(this);
         this.world.world_set(eprobot, 10, 10);
 
+        let b = new Barrier(this);
+        this.world.world_set(b, 12, 12);
+
         this.drawer.paint_fast();
+    }
+
+    add_borders(){
+        for (let x=0;x<this.world_width;x++){
+            let b = new Barrier(this);
+            this.world.world_set(b, x, 0);
+
+            let b2 = new Barrier(this);
+            this.world.world_set(b2, x, this.world_height-1);
+        }
+
+        for (let y=1;y<this.world_height-1;y++){
+            let b = new Barrier(this);
+            this.world.world_set(b, 0, y);
+
+            let b2 = new Barrier(this);
+            this.world.world_set(b2, this.world_width-1, y);
+        }
     }
 }
